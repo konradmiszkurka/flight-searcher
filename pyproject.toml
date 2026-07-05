@@ -6,7 +6,7 @@ requires-python = ">=3.11"
 dependencies = [
     "typer>=0.12",
     "rich>=13.0",
-    "fast-flights>=2.2",
+    "fast-flights>=3,<4",
 ]
 
 [project.scripts]

@@ -105,10 +105,17 @@ class GoogleFlightsProvider:
     `get_flights()` trafia na unijną ścianę zgody i nie zwraca wyników.
     """
 
-    def __init__(self, seat: str = "economy", adults: int = 1, consent_cookie: str = CONSENT_COOKIE):
+    def __init__(
+        self,
+        seat: str = "economy",
+        adults: int = 1,
+        consent_cookie: str = CONSENT_COOKIE,
+        timeout: float = 30.0,
+    ):
         self.seat = seat
         self.adults = adults
         self.consent_cookie = consent_cookie
+        self.timeout = timeout
 
     def search_one(self, origin, dest, depart_date, return_date, currency) -> list[FlightOption]:
         from fast_flights import FlightQuery, Passengers, create_query
@@ -129,6 +136,11 @@ class GoogleFlightsProvider:
         )
 
         client = Client(impersonate="chrome_145", impersonate_os="macos", referer=True, cookie_store=True)
-        response = client.get(URL, params=query.params(), headers={"Cookie": self.consent_cookie})
+        response = client.get(
+            URL,
+            params=query.params(),
+            headers={"Cookie": self.consent_cookie},
+            timeout=self.timeout,
+        )
         result = parse(response.text)
         return _map_flights(result, depart_date, return_date, currency, origin, dest)
