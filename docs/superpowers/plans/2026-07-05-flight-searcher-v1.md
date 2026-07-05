@@ -12,7 +12,7 @@
 
 - Python **3.11+**.
 - Zależności zarządzane przez **uv**; wszystkie polecenia przez `uv run ...`.
-- Waluta domyślnie **PLN**, zmienna flagą `--currency` (etykieta best-effort — patrz Task 7).
+- Waluta domyślnie **PLN**, zmienna flagą `--currency`. (Implementacja: `fast-flights` 3.x honoruje walutę natywnie w `create_query`, więc ceny są w żądanej walucie — nie jest to już „best-effort".)
 - Minimalizm v1: **1 dorosły, economy, bez limitu przesiadek** (żadnych flag `--adults/--cabin/--max-stops`).
 - Testy **nie chodzą do sieci** — deterministyczne, na fixture'ach/fake'ach.
 - Kwota pieniężna jako `decimal.Decimal`.
@@ -659,6 +659,8 @@ git commit -m "feat: add search orchestrator with provider protocol"
 ---
 
 ## Task 6: Adapter Google Flights (`providers/google_flights.py`)
+
+> **Deviation (implementacja):** kod poniżej zakładał `fast-flights` 2.x; zainstalowana wersja to 3.0.2 z zupełnie innym API. Rzeczywista implementacja używa `FlightQuery`/`create_query`/`fetcher.parse` + cookie zgody (obejście unijnej ściany zgody Google) i `coerce_price` zamiast `parse_price`. Szczegóły: `.superpowers/sdd/task-6-brief.md` + `task-6-report.md`.
 
 **Files:**
 - Create: `flight_searcher/providers/google_flights.py`
