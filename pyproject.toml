@@ -1,0 +1,23 @@
+[project]
+name = "flight-searcher"
+version = "0.1.0"
+description = "CLI do wyszukiwania najtańszych lotów z elastycznością dat"
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.0",
+    "fast-flights>=3,<4",
+]
+
+[project.scripts]
+flight-search = "flight_searcher.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
